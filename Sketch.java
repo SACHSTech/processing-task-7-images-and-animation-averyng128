@@ -67,7 +67,6 @@ public class Sketch extends PApplet {
     }
 
     // drawing the circle
-    noStroke();
     fill(255);
 
     // calculate Y speed of circle using sinusoidal function with periods of Pi/20 
