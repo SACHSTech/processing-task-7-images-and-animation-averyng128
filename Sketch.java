@@ -1,36 +1,84 @@
+/**
+ * A code to display a pink back ground with a butterfly and ball bouncing in the display in a wave patter
+ * Author: @A. Ng
+ */
+
 import processing.core.PApplet;
+import processing.core.PImage;
 
 public class Sketch extends PApplet {
+
+  // declaring images 
+  PImage imgBackground;
+  PImage imgButterfly;
+
+  //float values for the butterfly
+  float fltButterflyx = 300;
+  float fltButterflyy = 20;
+  float fltButterflySpeedx = 3;
+  float fltButterflySpeedy = 3;
+
+  //float values for the ball
+  float fltBallX = 250;
+  float fltBallY = 200;
+  float fltBallSpeedX = 5;
+  float fltBallSpeedY = 4;
+
+  //float value for the waves
+  float fltWave;
 	
 	
-  /**
-   * Called once at the beginning of execution, put your size all in this method
-   */
   public void settings() {
-	// put your size call here
-    size(400, 400);
-  }
-
-  /** 
-   * Called once at the beginning of execution.  Add initial set up
-   * values here i.e background, stroke, fill etc.
-   */
-  public void setup() {
-    background(210, 255, 173);
-  }
-
-  /**
-   * Called repeatedly, anything drawn to the screen goes here
-   */
-  public void draw() {
-	  
-	// sample code, delete this stuff
-    stroke(128);
-    line(150, 25, 270, 350);  
-
-    stroke(255);
-    line(50, 125, 70, 50);  
+    size(600, 600);
   }
   
-  // define other methods down here.
+
+  public void setup() {
+    // sets up background image and butterfly image
+    imgBackground = loadImage("v546batch3-mynt-34-badgewatercolor_1.jpg");
+    imgBackground.resize(width, height);
+    image(imgBackground, 0, 0);
+    imgButterfly = loadImage("flying-butterflies-png-transparent.png");
+    imgButterfly.resize(50,50);
+  }
+
+
+  public void draw() {
+
+    //draws the background image
+    image(imgBackground, 0, 0);
+	
+    //draws the butterfly image 
+    image(imgButterfly, fltButterflyx, fltButterflyy);
+
+    //moves the butterfly along a sine wave
+    fltButterflyy += (float)(Math.sin(fltWave)) + fltButterflySpeedy;
+    fltButterflyx += (float)(Math.sin(fltWave)) + fltButterflySpeedx;
+
+    //if statements to reverse the butterfly speed if it comes too close to the boundary
+    if (fltButterflyx < 0 + 3 || fltButterflyx > width - 45) {
+      fltButterflySpeedx *= -1;
+    }
+
+    if (fltButterflyy < 0 + 3 || fltButterflyy > height - 45) {
+      fltButterflySpeedy *= -1;
+    }
+
+    // drawing and animating a circle
+    fill(255);
+    ellipse(fltBallX, fltBallY, 20, 20);
+    fltBallX += fltBallSpeedX;
+    fltBallY += fltBallSpeedY;
+
+    // basic edge detection between the walls
+    if(fltBallX < 20 || fltBallX > width){
+      fltBallSpeedX *= -1;
+    }
+    if(fltBallY < 10 || fltBallY > height){
+      fltBallSpeedY *= -1;
+	
+    }
+  }
+
+
 }
