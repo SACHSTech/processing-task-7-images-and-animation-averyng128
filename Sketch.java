@@ -19,13 +19,15 @@ public class Sketch extends PApplet {
   float fltButterflySpeedy = 3;
 
   //float values for the ball
-  float fltBallX = 250;
-  float fltBallY = 200;
-  float fltBallSpeedX = 5;
-  float fltBallSpeedY = 4;
+  double dblBallX = 250;
+  double dblBallY = 200;
+  double dblBallSpeedX = 5;
+  double dblBallSpeedY = 4;
+  double dblBallMove = 2;
 
   //float value for the waves
   float fltWave;
+  double dblWave;
 	
 	
   public void settings() {
@@ -64,20 +66,28 @@ public class Sketch extends PApplet {
       fltButterflySpeedy *= -1;
     }
 
-    // drawing and animating a circle
+    // drawing the circle
+    noStroke();
     fill(255);
-    ellipse(fltBallX, fltBallY, 20, 20);
-    fltBallX += fltBallSpeedX;
-    fltBallY += fltBallSpeedY;
 
-    // basic edge detection between the walls
-    if(fltBallX < 20 || fltBallX > width){
-      fltBallSpeedX *= -1;
+    // calculate Y speed of circle using sinusoidal function with periods of Pi/20 
+    dblBallSpeedY = Math.sin(dblWave) * 10;
+    dblWave += Math.PI/20;
+
+    // check if circle moves beyond the edges of the window, and reverses the motion if so
+    if (dblBallX - 10 < 0 || dblBallX + 10 > width) {
+      dblBallSpeedX *= -1;
+    } 
+
+    if ((dblBallY - 10 < 0 && dblBallSpeedY < 0) || (dblBallY + 10 > height && dblBallSpeedY > 0)) {
+      dblBallSpeedY *= -1;
+      dblBallMove *= -1;
     }
-    if(fltBallY < 10 || fltBallY > height){
-      fltBallSpeedY *= -1;
-	
-    }
+
+    // draw + animate circle according to speeds
+    ellipse((float)dblBallX, (float)dblBallY, 20, 20);
+    dblBallX += dblBallSpeedX;
+    dblBallY += dblBallMove + dblBallSpeedY;
   }
 
 
